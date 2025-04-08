@@ -1,0 +1,22 @@
+Query a list of CITY names from STATION for cities that have an even ID number. Print the results in any order, but exclude duplicates from the answer.
+The STATION table is described as follows:
+#sql
+SELECT DISTINCT(CITY) 
+FROM STATION
+WHERE (ID % 2) = 0;
+
+#pySpark
+even_id_cities_df = station_df.filter(col("ID") % 2 == 0).select("CITY").distinct()
+
+even_id_cities_df.show()
+
+#sparkSql
+station_df.createOrReplaceTempView("STATION")
+
+result_df = spark.sql("""
+    SELECT DISTINCT(CITY) 
+    FROM STATION
+    WHERE MOD(ID, 2) = 0
+""")
+
+result_df.show()
